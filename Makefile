@@ -1,6 +1,6 @@
 CC=clang -Wall
 
-all: tictactoe test
+all: tictactoe
 
 ######################################################################
 #                       Règles de compilation                        #
