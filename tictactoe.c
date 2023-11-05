@@ -52,7 +52,7 @@ POINT verif_diag(POINT tab[3][3]){
         return tab[0][0];
     }
     if (tab[0][2] != NOTHING && tab[0][2] == tab[1][1] && tab[2][0] == tab[1][1]){
-        if (tab[0][0] == CROSS){
+        if (tab[0][2] == CROSS){
             printf("\x1b[1mCross (\e[0;34mX\033[0m) Win !\x1b[0m\n");
         }else{
             printf("\x1b[1mCercle (\e[0;31mO\033[0m) Win !\x1b[0m\n");
