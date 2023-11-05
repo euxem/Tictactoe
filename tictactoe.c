@@ -143,7 +143,7 @@ int ligne_test(POINT tab[3][3],int point[2],int num, int temp_pos){
 
 POINT play(POINT tab[3][3], POINT turn){
     if (turn == ROUND){
-        printf("\x1b[1mRound turn :\x1b[0m\n");
+        printf("\x1b[1mCercle turn :\x1b[0m\n");
     }else{
         printf("\x1b[1mCross turn :\x1b[0m\n");
     }
@@ -244,13 +244,61 @@ POINT play(POINT tab[3][3], POINT turn){
             exit(0);
         }
         printf("\x1b[5A");
-        printf("\x1b[5K");
     }
+}
+
+POINT start_menu(){
+    struct termios orig_termios, new_termios;
+    tcgetattr(STDIN_FILENO, &orig_termios);
+    new_termios = orig_termios;
+    new_termios.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &new_termios);
+
+    printf("\x1b[1mThe Tic-Tac-Toe Game !\n\x1b[0m");
+    printf("Who play first ?\n");
+    printf("● Cross\n○ Cercle\n");
+    char c;
+    POINT choice=CROSS;
+    while (1)
+    {
+        c = getchar();
+        if (c == 27) {
+            if (getchar() == 91) {
+                switch (getchar())
+                {
+                case 65:
+                    if (choice == ROUND){
+                        printf("\x1b[2A");
+                        printf("● Cross\n○ Cercle\n");
+                        choice = CROSS;
+                    }
+                    break;
+                case 66:
+                    if (choice == CROSS){
+                        printf("\x1b[2A");
+                        printf("○ Cross\n● Cercle\n");
+                        choice = ROUND;
+                    }
+                default:
+                    break;
+                }
+            }
+        }else if (c == '\n'){
+            tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+            printf("\x1b[4A");
+            printf("                        \n                  \n                  \n                  \n");
+            printf("\x1b[4A");
+            return choice;
+        }else if (c == 4){ // 4 correspond à Ctrl+D (EOF)
+            tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+            exit(0);
+        }
+    }    
 }
 
 int main(){
     POINT games_tab[3][3];
-    POINT start_turn = CROSS;
+    POINT start_turn = start_menu();
     int finish = 1;
     char number_play;
     number_play = 0;
@@ -258,7 +306,8 @@ int main(){
     while (finish && number_play < 9){
         start_turn = play(games_tab, start_turn);
         printf("\x1b[7A");
-        printf("\x1b[7K");
+        printf("                  \n");
+        printf("\x1b[1A");
         finish = (win_condition(games_tab) == NOTHING);
         number_play++;
     }
@@ -267,7 +316,6 @@ int main(){
     }
     printf("                \n");
     printf("\x1b[1A");
-    printf("\x1b[1K");
     int tab[2]={-1, -1};
     print_plateau(games_tab,tab);
     return 0;
