@@ -13,15 +13,18 @@ void init_tab(POINT tab[3][3]){
     }
     return;
 }
+void print_who_win(POINT team){
+    if (team == CROSS){
+        printf("\x1b[1mCross (\e[0;34mX\033[0m\x1b[1m) Win !\x1b[0m\n");
+    }else{
+        printf("\x1b[1mCercle (\e[0;31mO\033[0m\x1b[1m) Win !\x1b[0m\n");
+    }
+}
 
 POINT verif_ligne(POINT tab[3][3]){
     for (int i=0; i<3; i++){
         if (tab[i][0] != NOTHING && tab[i][0] == tab[i][1] && tab[i][1] == tab[i][2]){
-            if (tab[i][0] == CROSS){
-                printf("\x1b[1mCross (\e[0;34mX\033[0m) Win !\x1b[0m\n");
-            }else{
-                printf("\x1b[1mCercle (\e[0;31mO\033[0m) Win !\x1b[0m\n");
-            }
+            print_who_win(tab[i][0]);
             return tab[i][0];
         }
     }
@@ -31,11 +34,7 @@ POINT verif_ligne(POINT tab[3][3]){
 POINT verif_colone(POINT tab[3][3]){
     for (int i=0; i<3; i++){
         if (tab[0][i] != NOTHING && tab[0][i] == tab[1][i] && tab[1][i] == tab[2][i]){
-            if (tab[0][i] == CROSS){
-                printf("\x1b[1mCross (\e[0;34mX\033[0m) Win !\x1b[0m\n");
-            }else{
-                printf("\x1b[1mCercle (\e[0;31mO\033[0m) Win !\x1b[0m\n");
-            }
+            print_who_win(tab[0][i]);
             return tab[0][i];
         }
     }
@@ -44,19 +43,11 @@ POINT verif_colone(POINT tab[3][3]){
 
 POINT verif_diag(POINT tab[3][3]){
     if (tab[0][0] != NOTHING && tab[0][0] == tab[1][1] && tab[2][2] == tab[1][1]){
-        if (tab[0][0] == CROSS){
-            printf("\x1b[1mCross (\e[0;34mX\033[0m) Win !\x1b[0m\n");
-        }else{
-            printf("\x1b[1mCercle (\e[0;31mO\033[0m) Win !\x1b[0m\n");
-        }
+        print_who_win(tab[0][0]);
         return tab[0][0];
     }
     if (tab[0][2] != NOTHING && tab[0][2] == tab[1][1] && tab[2][0] == tab[1][1]){
-        if (tab[0][2] == CROSS){
-            printf("\x1b[1mCross (\e[0;34mX\033[0m) Win !\x1b[0m\n");
-        }else{
-            printf("\x1b[1mCercle (\e[0;31mO\033[0m) Win !\x1b[0m\n");
-        }
+        print_who_win(tab[0][2]);
         return tab[0][2];
     }
     return NOTHING;
