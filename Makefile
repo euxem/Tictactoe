@@ -1,4 +1,4 @@
-CC=clang -Wall
+CC=gcc -Wall
 
 all: tictactoe
 
