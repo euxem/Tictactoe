@@ -1,6 +1,6 @@
 #include "gridUI.h"
 #include "case.h"
-#include "tictactoe.h"
+#include "tictactoe+.h"
 #include "grid.h"
 #include <iostream>
 
