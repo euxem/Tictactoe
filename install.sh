@@ -17,7 +17,10 @@ then
     mkdir ~/.local/app_perso
 fi
 
+if [[ ! -d ~/.local/app_perso/Tictactoe ]]
+then
 mkdir ~/.local/app_perso/Tictactoe
+fi
 
 sudo cp tictactoe.svg ~/.local/app_perso/Tictactoe/.
 
